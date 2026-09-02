@@ -1,6 +1,9 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/constants";
 
+// Required for `output: "export"` — prerender at build time.
+export const dynamic = "force-static";
+
 const routes = [
   "",
   "/pricing",

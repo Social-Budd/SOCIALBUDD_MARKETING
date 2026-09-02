@@ -1,23 +1,19 @@
 {
-	// Cloudflare Workers config for the OpenNext (@opennextjs/cloudflare) build.
+	// Cloudflare deploy config. This is a fully static Next.js site
+	// (`output: "export"` in next.config.ts), so there is NO Worker script and
+	// NO OpenNext runtime — Cloudflare serves the exported `out/` folder as
+	// static assets. That removes the WORKER_SELF_REFERENCE binding entirely,
+	// which was the source of the earlier 10143 deploy failure.
 	//
-	// `name` is the single source of truth for the deployed Worker script name AND
-	// the auto-injected WORKER_SELF_REFERENCE service binding. Keeping it committed
-	// here prevents the two from drifting apart (the cause of the 10143
-	// "references Worker '...' which was not found" deploy failure).
-	//
-	// This MUST equal the Worker name in the Cloudflare dashboard / Workers Build
-	// project. It currently matches the deploy target `socialbudd-marketing`.
+	// `name` must match the Worker/project in the Cloudflare dashboard.
+	// Build command:  npm run build   (next build -> ./out)
+	// Deploy command: npx wrangler deploy
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "socialbudd-marketing",
-	"main": ".open-next/worker.js",
 	"compatibility_date": "2025-03-01",
-	"compatibility_flags": [
-		"nodejs_compat"
-	],
 	"assets": {
-		"binding": "ASSETS",
-		"directory": ".open-next/assets"
+		"directory": "./out",
+		"not_found_handling": "404-page"
 	},
 	"observability": {
 		"enabled": true
