@@ -1,0 +1,25 @@
+{
+	// Cloudflare Workers config for the OpenNext (@opennextjs/cloudflare) build.
+	//
+	// `name` is the single source of truth for the deployed Worker script name AND
+	// the auto-injected WORKER_SELF_REFERENCE service binding. Keeping it committed
+	// here prevents the two from drifting apart (the cause of the 10143
+	// "references Worker '...' which was not found" deploy failure).
+	//
+	// This MUST equal the Worker name in the Cloudflare dashboard / Workers Build
+	// project. It currently matches the deploy target `socialbudd-marketing`.
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "socialbudd-marketing",
+	"main": ".open-next/worker.js",
+	"compatibility_date": "2025-03-01",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".open-next/assets"
+	},
+	"observability": {
+		"enabled": true
+	}
+}
