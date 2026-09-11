@@ -1,27 +1,66 @@
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { MotionReveal } from "@/components/ui/motion-reveal";
-import { trustCategories } from "@/lib/demo-data";
+import {
+  FacebookIcon,
+  InstagramIcon,
+  LinkedInIcon,
+  PinterestIcon,
+  SnapchatIcon,
+  ThreadsIcon,
+  TikTokIcon,
+  XIcon,
+  YouTubeIcon,
+} from "@/components/ui/platform-icons";
 
-export function TrustSection() {
+/** The channels Social Budd publishes to, shown as mark + wordmark. */
+const platforms = [
+  { name: "Instagram", Icon: InstagramIcon },
+  { name: "TikTok", Icon: TikTokIcon },
+  { name: "YouTube", Icon: YouTubeIcon },
+  { name: "LinkedIn", Icon: LinkedInIcon },
+  { name: "X", Icon: XIcon },
+  { name: "Facebook", Icon: FacebookIcon },
+  { name: "Threads", Icon: ThreadsIcon },
+  { name: "Pinterest", Icon: PinterestIcon },
+  { name: "Snapchat", Icon: SnapchatIcon },
+] as const;
+
+function Strip() {
   return (
-    <Section variant="muted" className="py-12 md:py-16">
+    <ul className="flex shrink-0 items-center gap-14 pr-14 md:gap-20 md:pr-20">
+      {platforms.map(({ name, Icon }) => (
+        <li key={name} className="flex items-center gap-2.5 whitespace-nowrap">
+          <Icon mono className="h-6 w-6 md:h-7 md:w-7" />
+          <span className="text-[17px] font-bold tracking-tight md:text-[19px]">{name}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/**
+ * The platforms as a quiet logo marquee: monochrome marks and wordmarks in a
+ * muted grey, drifting past behind soft fades at either edge.
+ */
+export function TrustSection() {
+  // Section defaults to lg:py-32, so every breakpoint has to be overridden.
+  return (
+    <Section className="py-4 md:py-6 lg:py-8">
       <Container>
-        <MotionReveal>
-          <p className="text-center text-sm font-medium text-muted-foreground">
-            Built for teams that create content at scale
-          </p>
-        </MotionReveal>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-6 md:gap-10">
-          {trustCategories.map((category, i) => (
-            <MotionReveal key={category} delay={i * 0.05}>
-              <div className="flex h-12 items-center rounded-lg border border-border bg-card px-6">
-                <span className="text-sm font-medium text-muted-foreground">{category}</span>
-              </div>
-            </MotionReveal>
-          ))}
-        </div>
+        <p className="text-center text-sm font-bold pb-4 text-muted-foreground">
+          Currently supporting platforms
+        </p>
       </Container>
+
+      <div
+        className="group relative mt-6 overflow-hidden text-zinc-400 [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]"
+        aria-label="Supported platforms"
+      >
+        <div className="marquee flex w-max motion-reduce:animate-none">
+          <Strip />
+          <Strip aria-hidden />
+        </div>
+      </div>
     </Section>
   );
 }

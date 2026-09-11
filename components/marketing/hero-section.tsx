@@ -1,83 +1,64 @@
 "use client";
 
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { ArrowRight } from "lucide-react";
-import { motion } from "motion/react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { fadeUp, staggerContainer } from "@/lib/motion";
-
-const HeroProductVisual = dynamic(
-  () => import("./hero-product-visual").then((m) => m.HeroProductVisual),
-  { ssr: false, loading: () => <div className="h-[420px] animate-pulse rounded-xl bg-muted" /> }
-);
+import { HeroEyebrow } from "./hero-eyebrow";
+import { HeroPipeline } from "./hero-pipeline";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden pt-28 pb-16 md:pt-36 md:pb-24">
+    <section className="relative overflow-x-clip pt-24 pb-4 sm:pt-28 sm:pb-6 md:pt-36 md:pb-8">
       <div className="pointer-events-none absolute inset-0 surface-grid opacity-30" />
       <div className="pointer-events-none absolute inset-0 noise-overlay" />
       <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-accent/5 blur-3xl" />
 
       <Container>
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={staggerContainer}
-          className="relative z-10 mx-auto max-w-4xl text-center"
-        >
-          <motion.div variants={fadeUp}>
-            <Badge variant="accent" className="mb-6">
-              AI-powered social content platform
-            </Badge>
-          </motion.div>
+        {/* Entrances are CSS keyframes rather than JS-driven, so the copy is
+            on screen from the first paint even before hydration. */}
+        <div className="relative z-10 mx-auto max-w-4xl text-center">
+          <div className="hero-in hero-in-1">
+            <HeroEyebrow />
+          </div>
 
-          <motion.h1
-            variants={fadeUp}
-            className="text-balance text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl"
-          >
+          <h1 className="hero-in hero-in-2 text-balance text-[2rem] font-bold leading-[1.08] tracking-tight sm:text-4xl md:text-6xl lg:text-7xl">
             Turn one video into{" "}
             <span className="gradient-text">weeks of social content.</span>
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            variants={fadeUp}
-            className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl"
-          >
+          <p className="hero-in hero-in-3 mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:mt-6 sm:text-lg md:text-xl">
             Social Budd finds your best moments, turns them into engaging short clips,
             writes captions, and publishes them across your social channels — automatically.
-          </motion.p>
+          </p>
 
-          <motion.div
-            variants={fadeUp}
-            className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
-          >
-            <Button asChild size="lg">
+          {/* Side by side on every screen: half-width pills on phones, natural
+              width from sm up. */}
+          <div className="hero-in hero-in-4 mt-7 flex items-center justify-center gap-2.5 sm:mt-10 sm:gap-4">
+            <Button
+              asChild
+              size="lg"
+              className="h-11 flex-1 rounded-full px-4 text-[14px] sm:h-12 sm:flex-none sm:px-6 sm:text-base"
+            >
               <Link href="/start">
                 Start for free
                 <ArrowRight />
               </Link>
             </Button>
-            <Button asChild variant="secondary" size="lg">
+            <Button
+              asChild
+              variant="secondary"
+              size="lg"
+              className="h-11 flex-1 rounded-full px-4 text-[14px] sm:h-12 sm:flex-none sm:px-6 sm:text-base"
+            >
               <Link href="/#workflow">See how it works</Link>
             </Button>
-          </motion.div>
+          </div>
+        </div>
 
-          <motion.p variants={fadeUp} className="mt-4 text-sm text-muted-foreground">
-            No credit card required
-          </motion.p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.7 }}
-          className="relative z-10 mt-16 md:mt-20"
-        >
-          <HeroProductVisual />
-        </motion.div>
+        <div className="relative z-10 mt-8 md:mt-14">
+          <HeroPipeline />
+        </div>
       </Container>
     </section>
   );
