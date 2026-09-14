@@ -5,56 +5,75 @@ import { Section } from "@/components/ui/section";
 import { MotionReveal } from "@/components/ui/motion-reveal";
 import { Button } from "@/components/ui/button";
 import { pricingPlans } from "@/lib/constants";
-import { cn } from "@/lib/utils";
+
+/* -------------------------------------------------------------------------- */
+/*  Surface                                                                    */
+/* -------------------------------------------------------------------------- */
+
+const card =
+  "relative flex h-full flex-col overflow-hidden rounded-2xl p-7 " +
+  "before:pointer-events-none before:absolute before:inset-0 " +
+  "before:bg-[radial-gradient(60%_50%_at_100%_0%,rgba(255,255,255,0.06),transparent_70%)]";
+
+/* -------------------------------------------------------------------------- */
+/*  The section                                                                */
+/* -------------------------------------------------------------------------- */
 
 export function PricingSection() {
   return (
-    <Section variant="light" id="pricing">
+    <Section id="pricing">
       <Container>
         <MotionReveal>
-          <div className="text-center">
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-              Simple, transparent pricing.
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              Start free. Upgrade as you grow.
-            </p>
-          </div>
+          <h2 className="mx-auto max-w-2xl text-balance text-center text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
+            Simple, transparent pricing.
+          </h2>
+          <p className="mx-auto mt-5 max-w-xl text-center text-[15px] leading-relaxed text-muted-foreground md:mt-6">
+            Start free and move up when you outgrow it. Every plan includes the clipping,
+            captions and scheduling; the difference is how much you run through it.
+          </p>
         </MotionReveal>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-4 md:mt-16 md:grid-cols-2 lg:grid-cols-4">
           {pricingPlans.map((plan, i) => (
             <MotionReveal key={plan.name} delay={i * 0.05}>
               <div
-                className={cn(
-                  "flex h-full flex-col rounded-xl border p-6 transition-all hover:-translate-y-1",
-                  plan.highlighted
-                    ? "border-accent bg-accent/5 shadow-elevated ring-1 ring-accent/20"
-                    : "border-border bg-card"
-                )}
+                className={`${card} ${plan.highlighted ? "bg-[#1a1a1e]" : "bg-[#131315]"}`}
               >
-                {plan.highlighted && (
-                  <span className="mb-4 inline-block w-fit rounded-full bg-accent px-3 py-0.5 text-xs font-medium text-accent-foreground">
-                    Most popular
-                  </span>
-                )}
-                <h3 className="text-lg font-semibold">{plan.name}</h3>
-                <div className="mt-2 flex items-baseline gap-1">
-                  <span className="text-3xl font-bold">${plan.price}</span>
-                  <span className="text-sm text-muted-foreground">/month</span>
+                <div className="relative flex items-center gap-3">
+                  <h3 className="text-[17px] font-semibold tracking-tight">{plan.name}</h3>
+                  {plan.highlighted && (
+                    <span className="rounded-full bg-white/[0.08] px-2.5 py-1 text-[11px] font-medium text-foreground/80">
+                      Most popular
+                    </span>
+                  )}
                 </div>
-                <p className="mt-2 text-sm text-muted-foreground">{plan.description}</p>
-                <ul className="mt-6 flex-1 space-y-3">
+
+                <p className="relative mt-5 flex items-baseline gap-1.5">
+                  <span className="text-[2.5rem] font-light leading-none tracking-[-0.03em]">
+                    ${plan.price}
+                  </span>
+                  <span className="text-[13px] text-muted-foreground">/month</span>
+                </p>
+
+                <p className="relative mt-3 text-[14px] leading-relaxed text-muted-foreground">
+                  {plan.description}
+                </p>
+
+                <ul className="relative mt-7 flex-1 space-y-3">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 text-sm">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                      {feature}
+                    <li key={feature} className="flex gap-2.5 text-[14px] leading-relaxed">
+                      <Check
+                        className="mt-[3px] h-3.5 w-3.5 shrink-0 text-foreground/45"
+                        strokeWidth={2.5}
+                      />
+                      <span className="text-foreground/80">{feature}</span>
                     </li>
                   ))}
                 </ul>
+
                 <Button
                   asChild
-                  className="mt-6 w-full"
+                  className="relative mt-8 w-full rounded-full"
                   variant={plan.highlighted ? "default" : "secondary"}
                 >
                   <Link href={plan.href}>{plan.cta}</Link>
@@ -65,9 +84,9 @@ export function PricingSection() {
         </div>
 
         <MotionReveal delay={0.2}>
-          <p className="mt-8 text-center text-sm text-muted-foreground">
-            Need more?{" "}
-            <Link href="/contact" className="font-medium text-accent hover:underline">
+          <p className="mt-10 text-center text-[14px] text-muted-foreground">
+            Running more than this?{" "}
+            <Link href="/contact" className="font-medium text-foreground hover:underline">
               Talk to sales
             </Link>
           </p>

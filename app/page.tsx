@@ -13,7 +13,9 @@ import { CalendarSection } from "@/components/marketing/calendar-section";
 import { AnalyticsSection } from "@/components/marketing/analytics-section";
 import { VisionSection } from "@/components/marketing/vision-section";
 import { FeaturesSection } from "@/components/marketing/features-section";
-import { PricingSection } from "@/components/marketing/pricing-section";
+// Parked for now: pricing is not shown at launch. Uncomment the import and
+// the tag below to bring it back.
+// import { PricingSection } from "@/components/marketing/pricing-section";
 import { PositioningSection } from "@/components/marketing/positioning-section";
 import { FaqSection } from "@/components/marketing/faq-section";
 import { FinalCtaSection } from "@/components/marketing/final-cta-section";
@@ -34,7 +36,7 @@ export default function HomePage() {
       <AnalyticsSection />
       <VisionSection />
       <FeaturesSection />
-      <PricingSection />
+      {/* <PricingSection /> */}
       <PositioningSection />
       <FaqSection />
       <FinalCtaSection />
