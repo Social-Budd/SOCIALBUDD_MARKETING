@@ -16,7 +16,7 @@ import { FeaturesSection } from "@/components/marketing/features-section";
 // Parked for now: pricing is not shown at launch. Uncomment the import and
 // the tag below to bring it back.
 // import { PricingSection } from "@/components/marketing/pricing-section";
-import { PositioningSection } from "@/components/marketing/positioning-section";
+import { SourceSection } from "@/components/marketing/source-section";
 import { FaqSection } from "@/components/marketing/faq-section";
 import { FinalCtaSection } from "@/components/marketing/final-cta-section";
 
@@ -37,7 +37,7 @@ export default function HomePage() {
       <VisionSection />
       <FeaturesSection />
       {/* <PricingSection /> */}
-      <PositioningSection />
+      <SourceSection />
       <FaqSection />
       <FinalCtaSection />
     </>
