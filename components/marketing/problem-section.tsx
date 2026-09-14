@@ -167,7 +167,7 @@ export function ProblemSection() {
               <p className={`mt-2 ${copy}`}>Back in your week, every week.</p>
               {/* Parked for now, uncomment to put the link back.
               <Link
-                href="/#workflow"
+                href="/how-it-works"
                 className="mt-auto inline-flex items-center gap-1.5 pt-8 text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
               >
                 See how it works

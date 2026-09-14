@@ -5,7 +5,7 @@ import { useEffect } from "react";
 /**
  * A reload starts the page from the top. Browsers restore the previous scroll
  * position by default, which drops returning visitors into the middle of the
- * hero animation. Anchor links (/#workflow) still land where they point.
+ * hero animation. Anchor links still land where they point.
  */
 export function ScrollToTop() {
   useEffect(() => {
