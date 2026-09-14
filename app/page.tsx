@@ -4,8 +4,10 @@ import { ProblemSection } from "@/components/marketing/problem-section";
 import { WorkflowSection } from "@/components/marketing/workflow-section";
 import { ClippingDemoSection } from "@/components/marketing/clipping-demo-section";
 import { BeforeAfterSection } from "@/components/marketing/before-after-section";
-import { AgencySection } from "@/components/marketing/agency-section";
-import { ApprovalSection } from "@/components/marketing/approval-section";
+// Parked for now: the two agency sections. Uncomment both the imports and the
+// tags below to put them back.
+// import { AgencySection } from "@/components/marketing/agency-section";
+// import { ApprovalSection } from "@/components/marketing/approval-section";
 import { PublishSection } from "@/components/marketing/publish-section";
 import { CalendarSection } from "@/components/marketing/calendar-section";
 import { AnalyticsSection } from "@/components/marketing/analytics-section";
@@ -25,8 +27,8 @@ export default function HomePage() {
       <WorkflowSection />
       <ClippingDemoSection />
       <BeforeAfterSection />
-      <AgencySection />
-      <ApprovalSection />
+      {/* <AgencySection /> */}
+      {/* <ApprovalSection /> */}
       <PublishSection />
       <CalendarSection />
       <AnalyticsSection />
