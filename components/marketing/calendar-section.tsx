@@ -17,7 +17,7 @@ import {
 /* -------------------------------------------------------------------------- */
 
 const tile =
-  "relative overflow-hidden rounded-2xl bg-[#131315] p-5 sm:p-6 " +
+  "relative overflow-hidden rounded-2xl bg-[#131315] px-7 py-7 sm:px-12 sm:py-10 " +
   "before:pointer-events-none before:absolute before:inset-0 " +
   "before:bg-[radial-gradient(50%_60%_at_100%_0%,rgba(255,255,255,0.06),transparent_70%)]";
 
@@ -132,7 +132,7 @@ export function CalendarSection() {
                         type="button"
                         onClick={() => setSelected(day)}
                         aria-pressed={on}
-                        className={`flex h-[46px] flex-col items-start rounded-lg px-2 py-1.5 text-left transition-colors sm:h-[54px] ${
+                        className={`flex h-[46px] flex-col items-start rounded-[5px] px-2 py-1.5 text-left transition-colors sm:h-[54px] ${
                           on ? "bg-white/[0.09]" : "hover:bg-white/[0.05]"
                         }`}
                       >
