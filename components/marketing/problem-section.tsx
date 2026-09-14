@@ -20,7 +20,7 @@ import {
  * reads as one lit surface rather than a set of boxes.
  */
 const tile =
-  "relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#131315] " +
+  "relative overflow-hidden rounded-2xl bg-[#131315] " +
   "before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(60%_50%_at_100%_0%,rgba(255,255,255,0.07),transparent_70%)]";
 
 /** One body size across the grid, so no card reads louder than another. */
@@ -113,9 +113,13 @@ export function ProblemSection() {
     <Section className="pb-14 md:pb-20 lg:pb-24">
       <Container>
         <MotionReveal>
-          <h2 className="mx-auto max-w-2xl text-balance text-center text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
+          <h2 className="mx-auto max-w-2xl text-balance text-center text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
             Everything you need to post every day, without the grind.
           </h2>
+          <p className="mx-auto mt-5 max-w-xl text-center md:mt-6 text-[15px] leading-relaxed text-muted-foreground">
+            Making the content, scheduling it and putting it out is handled for you, on
+            every channel your organization runs.
+          </p>
         </MotionReveal>
 
         <div className="mt-12 grid gap-4 md:mt-16 md:grid-cols-2 lg:grid-cols-[1fr_1fr_0.9fr] lg:grid-rows-[auto_auto]">
@@ -161,6 +165,7 @@ export function ProblemSection() {
                 70<span className="text-[0.5em] text-muted-foreground"> hrs</span>
               </p>
               <p className={`mt-2 ${copy}`}>Back in your week, every week.</p>
+              {/* Parked for now, uncomment to put the link back.
               <Link
                 href="/#workflow"
                 className="mt-auto inline-flex items-center gap-1.5 pt-8 text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
@@ -168,6 +173,7 @@ export function ProblemSection() {
                 See how it works
                 <ArrowRight className="h-4 w-4" />
               </Link>
+              */}
             </div>
           </MotionReveal>
 

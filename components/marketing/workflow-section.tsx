@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
+import { motion, type Variants } from "motion/react";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { MotionReveal } from "@/components/ui/motion-reveal";
+import { BRAND_PATHS } from "@/components/ui/platform-icons";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 /* -------------------------------------------------------------------------- */
 /*  Vectors                                                                    */
@@ -15,90 +17,279 @@ import { MotionReveal } from "@/components/ui/motion-reveal";
 
 const art = "h-32 w-52 text-foreground sm:h-40 sm:w-72 lg:h-44 lg:w-80";
 const stroke = { stroke: "currentColor", strokeOpacity: 0.4, fill: "currentColor", fillOpacity: 0.08 };
+const line = { stroke: "currentColor", strokeOpacity: 0.3, strokeWidth: 1.25 };
 
-/** Many channels docking into one place. */
+/* The drawing assembles itself once, in the order the step actually happens:
+   the pieces arrive, then the lines run out and connect them. */
+const flow: Variants = {
+  hidden: {},
+  shown: { transition: { staggerChildren: 0.11, delayChildren: 0.08 } },
+};
+
+const nodeIn: Variants = {
+  hidden: { opacity: 0 },
+  shown: { opacity: 1, transition: { duration: 0.4, ease: "easeOut" } },
+};
+
+const lineIn: Variants = {
+  hidden: { pathLength: 0, opacity: 0 },
+  shown: {
+    pathLength: 1,
+    opacity: 1,
+    transition: { pathLength: { duration: 0.55, ease: "easeInOut" }, opacity: { duration: 0.1 } },
+  },
+};
+
+const popIn: Variants = {
+  hidden: { opacity: 0, scale: 0.5 },
+  shown: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 320, damping: 18 } },
+};
+
+const growIn: Variants = {
+  hidden: { opacity: 0, scaleY: 0 },
+  shown: { opacity: 1, scaleY: 1, transition: { duration: 0.45, ease: "easeOut" } },
+};
+
+/** Scale transforms on SVG shapes need their own box to grow from. */
+const fromCenter = { transformBox: "fill-box", transformOrigin: "center" } as const;
+const fromBottom = { transformBox: "fill-box", transformOrigin: "bottom" } as const;
+
+/** Wraps a drawing so it plays once, when it reaches the middle of the screen. */
+function Drawing({ children }: { children: React.ReactNode }) {
+  const calm = usePrefersReducedMotion();
+  return (
+    <svg viewBox="0 0 200 122" fill="none" aria-hidden className={art}>
+      <motion.g
+        variants={flow}
+        initial={calm ? "shown" : "hidden"}
+        whileInView="shown"
+        viewport={{ once: true, amount: 0.6 }}
+      >
+        {children}
+      </motion.g>
+    </svg>
+  );
+}
+
+/** One workspace, the platforms it posts to, and the accounts on each. */
 function ConnectArt() {
-  // Each channel runs into one trunk with a rounded elbow. The paths meet at a
-  // single point, so no line crosses another or runs past a joint.
+  const rows = [
+    { y: 20, mark: BRAND_PATHS.instagram, accounts: 3 },
+    { y: 61, mark: BRAND_PATHS.tiktok, accounts: 2 },
+    { y: 102, mark: BRAND_PATHS.linkedin, accounts: 2 },
+  ];
   const branches = [
-    "M28 23 H52 a10 10 0 0 1 10 10 V48 a10 10 0 0 0 10 10",
-    "M28 93 H52 a10 10 0 0 0 10 -10 V68 a10 10 0 0 1 10 -10",
-    "M28 58 H112",
+    "M56 61 a10 10 0 0 0 10 -10 V30 a10 10 0 0 1 10 -10",
+    "M56 61 a10 10 0 0 1 10 10 V92 a10 10 0 0 0 10 10",
+    "M36 61 H76",
   ];
+
   return (
-    <svg viewBox="0 0 180 110" fill="none" aria-hidden className={art}>
-      {[10, 45, 80].map((y) => (
-        <rect key={y} x="2" y={y} width="26" height="26" rx="8" {...stroke} />
-      ))}
+    <Drawing>
+      <motion.rect
+        variants={nodeIn}
+        x="4"
+        y="45"
+        width="32"
+        height="32"
+        rx="10"
+        fill="currentColor"
+        fillOpacity="0.12"
+        stroke="currentColor"
+        strokeOpacity="0.4"
+      />
+
       {branches.map((d) => (
-        <path key={d} d={d} stroke="currentColor" strokeOpacity="0.3" strokeWidth="1.25" />
+        <motion.path key={d} variants={lineIn} d={d} {...line} />
       ))}
-      <rect x="112" y="41" width="34" height="34" rx="11" fill="currentColor" fillOpacity="0.12" stroke="currentColor" strokeOpacity="0.4" />
-    </svg>
+
+      {rows.map(({ y, mark }) => (
+        <motion.g key={y} variants={nodeIn}>
+          <rect x="76" y={y - 13} width="26" height="26" rx="8" {...stroke} />
+          <g transform={`translate(82.5 ${y - 6.5}) scale(0.54)`}>
+            <path d={mark} fill="currentColor" fillOpacity="0.7" />
+          </g>
+        </motion.g>
+      ))}
+
+      {rows.map(({ y, accounts }) => (
+        <motion.g key={`a${y}`} variants={nodeIn}>
+          <path d={`M102 ${y} H126`} {...line} />
+          {Array.from({ length: accounts }, (_, i) => accounts - 1 - i).map((i) => (
+            <g key={i}>
+              <circle cx={133 + i * 10} cy={y} r="8.5" fill="#131315" />
+              <circle
+                cx={133 + i * 10}
+                cy={y}
+                r="7"
+                fill="currentColor"
+                fillOpacity="0.16"
+                stroke="currentColor"
+                strokeOpacity="0.38"
+              />
+            </g>
+          ))}
+        </motion.g>
+      ))}
+    </Drawing>
   );
 }
 
-/** One source turning into a set of finished posts. */
+/** One landscape video recut into every aspect ratio a channel wants. */
 function CreateArt() {
-  const posts = [
-    [72, 14],
-    [116, 14],
-    [72, 62],
-    [116, 62],
+  const outputs = [
+    { x: 149, y: 6, w: 18, h: 32 },
+    { x: 145, y: 48, w: 26, h: 26 },
+    { x: 140, y: 84, w: 36, h: 20 },
   ];
+  const branches = [
+    "M92 61 a10 10 0 0 0 10 -10 V32 a10 10 0 0 1 10 -10 H149",
+    "M92 61 a10 10 0 0 1 10 10 V84 a10 10 0 0 0 10 10 H140",
+    "M64 61 H145",
+  ];
+
   return (
-    <svg viewBox="0 0 180 110" fill="none" aria-hidden className={art}>
-      <rect x="4" y="38" width="34" height="34" rx="11" fill="currentColor" fillOpacity="0.12" stroke="currentColor" strokeOpacity="0.4" />
-      <path d="M38 55 H56 M56 55 V28 H68" stroke="currentColor" strokeOpacity="0.26" strokeWidth="1.25" />
-      <path d="M56 55 V82 H68" stroke="currentColor" strokeOpacity="0.26" strokeWidth="1.25" />
-      {posts.map(([x, y]) => (
-        <g key={`${x}-${y}`}>
-          <rect x={x} y={y} width="38" height="32" rx="8" {...stroke} />
-          <rect x={x + 8} y={y + 10} width="22" height="3" rx="1.5" fill="currentColor" fillOpacity="0.45" />
-          <rect x={x + 8} y={y + 18} width="14" height="3" rx="1.5" fill="currentColor" fillOpacity="0.22" />
-        </g>
+    <Drawing>
+      <motion.g variants={nodeIn}>
+        <rect x="4" y="44" width="60" height="34" rx="8" {...stroke} />
+        <path d="M29 55 l12 6 l-12 6 z" fill="currentColor" fillOpacity="0.5" />
+      </motion.g>
+
+      {branches.map((d) => (
+        <motion.path key={d} variants={lineIn} d={d} {...line} />
       ))}
-    </svg>
+
+      {outputs.map(({ x, y, w, h }) => (
+        <motion.g key={h} variants={popIn} style={fromCenter}>
+          <rect x={x} y={y} width={w} height={h} rx="6" {...stroke} />
+          <rect
+            x={x + 4}
+            y={y + h - 8}
+            width={w - 8}
+            height="3"
+            rx="1.5"
+            fill="currentColor"
+            fillOpacity="0.4"
+          />
+        </motion.g>
+      ))}
+    </Drawing>
   );
 }
 
-/** A post waiting on a yes, with the queue behind it. */
+/** The three recuts going in, one approved post coming out. */
 function ApproveArt() {
+  const inputs = [
+    { x: 8, y: 8, w: 14, h: 25 },
+    { x: 5, y: 51, w: 20, h: 20 },
+    { x: 2, y: 95, w: 26, h: 15 },
+  ];
+  const branches = [
+    "M22 20 H56 a10 10 0 0 1 10 10 V51 a10 10 0 0 0 10 10",
+    "M28 102 H56 a10 10 0 0 0 10 -10 V71 a10 10 0 0 1 10 -10",
+    "M25 61 H104",
+  ];
+
   return (
-    <svg viewBox="0 0 180 110" fill="none" aria-hidden className={art}>
-      {/* Both cards share one treatment, and the front one is opaque so the
-          card behind reads as a queue rather than showing through it. */}
-      <rect x="58" y="8" width="74" height="50" rx="10" fill="#1a1a1e" stroke="currentColor" strokeOpacity="0.34" />
-      <rect x="40" y="24" width="88" height="58" rx="12" fill="#212126" stroke="currentColor" strokeOpacity="0.4" />
-      <rect x="54" y="42" width="44" height="4" rx="2" fill="currentColor" fillOpacity="0.45" />
-      <rect x="54" y="54" width="28" height="4" rx="2" fill="currentColor" fillOpacity="0.22" />
-      <circle cx="128" cy="76" r="14" fill="#131315" />
-      <circle cx="128" cy="76" r="12" fill="currentColor" fillOpacity="0.9" />
-      <path d="M122 76.5 l4 4 l8 -8.5" stroke="#131315" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+    <Drawing>
+      {inputs.map(({ x, y, w, h }) => (
+        <motion.rect key={h} variants={nodeIn} x={x} y={y} width={w} height={h} rx="5" {...stroke} />
+      ))}
+
+      {branches.map((d) => (
+        <motion.path key={d} variants={lineIn} d={d} {...line} />
+      ))}
+
+      <motion.g variants={nodeIn}>
+        <rect
+          x="104"
+          y="34"
+          width="78"
+          height="54"
+          rx="12"
+          fill="currentColor"
+          fillOpacity="0.12"
+          stroke="currentColor"
+          strokeOpacity="0.4"
+        />
+        <rect x="118" y="52" width="42" height="4" rx="2" fill="currentColor" fillOpacity="0.45" />
+        <rect x="118" y="64" width="26" height="4" rx="2" fill="currentColor" fillOpacity="0.22" />
+      </motion.g>
+
+      <motion.g variants={popIn} style={fromCenter}>
+        <circle cx="178" cy="86" r="14" fill="#131315" />
+        <circle cx="178" cy="86" r="12" fill="currentColor" fillOpacity="0.9" />
+        <path
+          d="M172 86.5 l4 4 l8 -8.5"
+          stroke="#131315"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </motion.g>
+    </Drawing>
   );
 }
 
-/** Posts going out on time, and the results coming back. */
+/** Posts going out on every channel, and the results coming back. */
 function PublishArt() {
-  const bars = [26, 34, 30, 46, 58, 54, 72];
+  const rows = [
+    { y: 20, mark: BRAND_PATHS.instagram },
+    { y: 61, mark: BRAND_PATHS.tiktok },
+    { y: 102, mark: BRAND_PATHS.linkedin },
+  ];
+  const branches = [
+    "M30 20 H56 a10 10 0 0 1 10 10 V51 a10 10 0 0 0 10 10",
+    "M30 102 H56 a10 10 0 0 0 10 -10 V71 a10 10 0 0 1 10 -10",
+    "M30 61 H104",
+  ];
+  const bars = [12, 18, 15, 24, 32, 40];
+
   return (
-    <svg viewBox="0 0 180 110" fill="none" aria-hidden className={art}>
+    <Drawing>
+      {rows.map(({ y, mark }) => (
+        <motion.g key={y} variants={nodeIn}>
+          <rect x="4" y={y - 13} width="26" height="26" rx="8" {...stroke} />
+          <g transform={`translate(10.5 ${y - 6.5}) scale(0.54)`}>
+            <path d={mark} fill="currentColor" fillOpacity="0.7" />
+          </g>
+        </motion.g>
+      ))}
+
+      {branches.map((d) => (
+        <motion.path key={d} variants={lineIn} d={d} {...line} />
+      ))}
+
+      <motion.rect
+        variants={nodeIn}
+        x="104"
+        y="30"
+        width="92"
+        height="62"
+        rx="12"
+        fill="currentColor"
+        fillOpacity="0.06"
+        stroke="currentColor"
+        strokeOpacity="0.28"
+      />
+
       {bars.map((h, i) => (
-        <rect
+        <motion.rect
           key={i}
-          x={12 + i * 23}
-          y={96 - h}
-          width="15"
+          variants={growIn}
+          style={fromBottom}
+          x={116 + i * 13}
+          y={78 - h}
+          width="8"
           height={h}
-          rx="4"
+          rx="3"
           fill="currentColor"
-          fillOpacity={0.08 + i * 0.035}
+          fillOpacity={0.16 + i * 0.05}
           stroke="currentColor"
-          strokeOpacity="0.32"
+          strokeOpacity="0.3"
         />
       ))}
-    </svg>
+    </Drawing>
   );
 }
 
@@ -194,10 +385,10 @@ export function WorkflowSection() {
     <Section id="workflow">
       <Container>
         <MotionReveal>
-          <h2 className="max-w-2xl text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
+          <h2 className="mx-auto max-w-2xl text-balance text-center text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
             Connect it once. It runs from there.
           </h2>
-          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
+          <p className="mx-auto mt-5 max-w-xl text-center md:mt-6 text-[15px] leading-relaxed text-muted-foreground">
             Nothing to learn, nothing to hand over every week. This is the whole of it.
           </p>
         </MotionReveal>
