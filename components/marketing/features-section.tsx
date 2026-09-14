@@ -32,7 +32,7 @@ function FeatureDemo({ demo }: { demo: string }) {
     ),
     brand: (
       <div className="flex gap-1">
-        {["#FF6A3D", "#3B82F6", "#22C55E"].map((c) => (
+        {["#FAFAFA", "#3B82F6", "#22C55E"].map((c) => (
           <div key={c} className="h-4 w-4 rounded" style={{ backgroundColor: c }} />
         ))}
       </div>

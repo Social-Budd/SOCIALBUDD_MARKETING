@@ -42,9 +42,9 @@
   --muted-foreground: #a1a1aa;
   --border: #27272a;
   --input: #27272a;
-  --ring: #ff6a3d;
-  --accent: #ff6a3d;
-  --accent-foreground: #ffffff;
+  --ring: #fafafa;
+  --accent: #fafafa;
+  --accent-foreground: #09090b;
   --card: #111113;
   --card-foreground: #fafafa;
   --elevated: #18181b;
@@ -112,9 +112,9 @@
   .gradient-accent {
     background-image: linear-gradient(
       135deg,
-      #ff6a3d 0%,
-      #ff8f66 50%,
-      #ff6a3d 100%
+      #fafafa 0%,
+      #d4d4d8 50%,
+      #fafafa 100%
     );
   }
 

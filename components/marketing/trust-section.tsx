@@ -43,17 +43,18 @@ function Strip() {
  * muted grey, drifting past behind soft fades at either edge.
  */
 export function TrustSection() {
-  // Section defaults to lg:py-32, so every breakpoint has to be overridden.
+  // The strip sits as far below the hero as the next section sits below it,
+  // so it reads as its own beat rather than as a tail on the banner.
   return (
-    <Section className="py-4 md:py-6 lg:py-8">
+    <Section className="pb-4 pt-20 md:pb-6 md:pt-28 lg:pb-8 lg:pt-32">
       <Container>
-        <p className="text-center text-sm font-bold pb-4 text-muted-foreground">
+        <p className="pb-6 text-center text-sm font-bold text-muted-foreground">
           Currently supporting platforms
         </p>
       </Container>
 
       <div
-        className="group relative mt-6 overflow-hidden text-zinc-400 [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]"
+        className="group relative mt-8 overflow-hidden md:mt-10 text-zinc-400 [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]"
         aria-label="Supported platforms"
       >
         <div className="marquee flex w-max motion-reduce:animate-none">

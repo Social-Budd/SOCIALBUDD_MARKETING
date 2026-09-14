@@ -18,6 +18,7 @@ import {
   YouTubeIcon,
 } from "@/components/ui/platform-icons";
 import { easePremium } from "@/lib/motion";
+import { VerifiedBadge } from "@/components/ui/verified-badge";
 
 /**
  * Scenes waiting in the queue hold still: every entrance, timer and sweep
@@ -143,18 +144,6 @@ const reach = [18, 24, 21, 33, 41, 38, 52, 61, 74, 88];
 /*  Objects on the stage                                                       */
 /* -------------------------------------------------------------------------- */
 
-/** The scalloped verified mark, drawn in currentColor. */
-function VerifiedBadge({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden className={className}>
-      <path
-        fill="currentColor"
-        d="M22.02 11.164a1.84 1.84 0 0 0-.57-.67l-1.33-1a.35.35 0 0 1-.14-.2a.36.36 0 0 1 0-.25l.55-1.63a2 2 0 0 0 .06-.9a1.8 1.8 0 0 0-.36-.84a1.86 1.86 0 0 0-.7-.57a1.75 1.75 0 0 0-.85-.17h-1.5a.41.41 0 0 1-.39-.3l-.43-1.5a1.9 1.9 0 0 0-.46-.81a2 2 0 0 0-.78-.49a2 2 0 0 0-.92-.06a1.9 1.9 0 0 0-.83.39l-1.14.9a.35.35 0 0 1-.23.09a.36.36 0 0 1-.22-.05l-1.13-.9a1.85 1.85 0 0 0-.8-.38a1.9 1.9 0 0 0-.88 0a1.9 1.9 0 0 0-.78.43a2.1 2.1 0 0 0-.51.79l-.43 1.51a.38.38 0 0 1-.15.22a.4.4 0 0 1-.27.07H5.41a1.9 1.9 0 0 0-.89.18a1.8 1.8 0 0 0-.71.57a1.9 1.9 0 0 0-.36.83c-.05.293-.03.595.06.88L4 8.993a.41.41 0 0 1-.14.45l-1.33 1c-.242.18-.44.412-.58.68a1.93 1.93 0 0 0 0 1.71a2 2 0 0 0 .58.68l1.33 1a.41.41 0 0 1 .14.45l-.55 1.63a2 2 0 0 0-.07.91c.05.298.174.58.36.82c.183.25.428.45.71.58c.265.126.557.184.85.17h1.49a.38.38 0 0 1 .25.08a.34.34 0 0 1 .14.21l.43 1.51a2 2 0 0 0 .46.8a1.89 1.89 0 0 0 2.54.17l1.15-.91a.39.39 0 0 1 .49 0l1.13.9c.24.202.53.337.84.39q.17.015.34 0a1.9 1.9 0 0 0 .58-.09a1.87 1.87 0 0 0 1.24-1.28l.44-1.52a.34.34 0 0 1 .14-.21a.4.4 0 0 1 .27-.08h1.43a2 2 0 0 0 .89-.17a1.91 1.91 0 0 0 1.06-1.4a1.9 1.9 0 0 0-.07-.92l-.54-1.62a.36.36 0 0 1 0-.25a.35.35 0 0 1 .14-.2l1.33-1a1.9 1.9 0 0 0 .57-.68a1.8 1.8 0 0 0 .21-.86a1.9 1.9 0 0 0-.23-.78m-5.44-.76l-4.42 4.42a2 2 0 0 1-.59.4c-.222.09-.46.138-.7.14a1.7 1.7 0 0 1-.71-.15a1.9 1.9 0 0 1-.6-.4l-2.18-2.19a1 1 0 0 1 1.41-1.41l2.08 2.08l4.3-4.31a1 1 0 0 1 1.41 0a1 1 0 0 1 0 1.46z"
-      />
-    </svg>
-  );
-}
-
 /** One pass of the analysis head across the source frame. */
 function ScanSweep() {
   return (
@@ -163,7 +152,7 @@ function ScanSweep() {
       initial={{ left: "-6%", opacity: 0 }}
       animate={{ left: ["-6%", "104%"], opacity: [0, 1, 1, 0] }}
       transition={{ duration: 1.7, ease: [0.33, 0, 0.2, 1], times: [0, 0.12, 0.86, 1] }}
-      className="pointer-events-none absolute inset-y-0 w-[2px] bg-accent shadow-[0_0_26px_6px_rgba(255,106,61,0.5)]"
+      className="pointer-events-none absolute inset-y-0 w-[2px] bg-accent shadow-[0_0_26px_6px_rgba(255,255,255,0.35)]"
     />
   );
 }
@@ -334,7 +323,7 @@ function SourceCard({
                       ease: easePremium,
                     }}
                     style={{ left: `${a * 100}%`, width: `${(b - a) * 100}%` }}
-                    className="absolute inset-y-0 origin-left rounded-full bg-accent shadow-[0_0_10px_rgba(255,106,61,0.7)]"
+                    className="absolute inset-y-0 origin-left rounded-full bg-accent shadow-[0_0_10px_rgba(255,255,255,0.5)]"
                   />
                 ))}
               </div>
@@ -804,7 +793,7 @@ function Stage({
       {!still && (
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 -top-24 bottom-0 bg-[radial-gradient(55%_60%_at_50%_20%,rgba(255,106,61,0.22),transparent_70%)] blur-3xl"
+          className="pointer-events-none absolute inset-x-0 -top-24 bottom-0 bg-[radial-gradient(55%_60%_at_50%_20%,rgba(255,255,255,0.10),transparent_70%)] blur-3xl"
         />
       )}
 
@@ -945,7 +934,7 @@ function StepBar({
                       ? { duration: 0 }
                       : { type: "spring", stiffness: 210, damping: 26, mass: 0.9 }
                   }
-                  className="absolute inset-0 rounded-full bg-[linear-gradient(180deg,#ff7d55_0%,#ff6a3d_100%)] shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_0_28px_-6px_rgba(255,106,61,0.8)]"
+                  className="absolute inset-0 rounded-full bg-[linear-gradient(180deg,#ffffff_0%,#e4e4e7_100%)] shadow-[0_0_28px_-6px_rgba(255,255,255,0.45)]"
                 />
               )}
               <span

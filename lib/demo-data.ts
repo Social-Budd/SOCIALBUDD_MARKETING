@@ -1,5 +1,5 @@
 export const demoClients = [
-  { id: "acme", name: "Acme", color: "#FF6A3D", accounts: 8, videos: 42, status: "Active" },
+  { id: "acme", name: "Acme", color: "#FAFAFA", accounts: 8, videos: 42, status: "Active" },
   { id: "nova", name: "Nova", color: "#3B82F6", accounts: 6, videos: 28, status: "Active" },
   { id: "orbit", name: "Orbit", color: "#22C55E", accounts: 12, videos: 67, status: "Active" },
   { id: "vertex", name: "Vertex", color: "#A855F7", accounts: 4, videos: 19, status: "Review" },
