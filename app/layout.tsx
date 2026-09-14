@@ -54,7 +54,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen font-sans antialiased">
+      {/* Browser extensions stamp attributes on <body> before React hydrates
+          (ColorZilla adds cz-shortcut-listen, for one), which React reports as
+          a mismatch. Ignoring attribute differences on this one element keeps
+          that noise out of the console without hiding real mismatches. */}
+      <body className="min-h-screen font-sans antialiased" suppressHydrationWarning>
         <ScrollToTop />
         <a
           href="#main-content"
