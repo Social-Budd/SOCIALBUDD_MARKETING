@@ -53,10 +53,10 @@ export function VisionSection() {
           {learns.map(({ title, body }, i) => (
             <MotionReveal key={title} delay={i * 0.07}>
               <div className={tile}>
-                <p className="relative text-[2rem] font-light leading-none tracking-[-0.03em]">
+                <h3 className="relative text-[17px] font-semibold tracking-tight">
                   {title}
-                </p>
-                <p className="relative mt-4 text-[15px] leading-relaxed text-muted-foreground">
+                </h3>
+                <p className="relative mt-2 text-[15px] leading-relaxed text-muted-foreground">
                   {body}
                 </p>
               </div>

@@ -1,102 +1,80 @@
-"use client";
-
-import { motion } from "motion/react";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { MotionReveal } from "@/components/ui/motion-reveal";
-import { features } from "@/lib/demo-data";
 
-function FeatureDemo({ demo }: { demo: string }) {
-  const demos: Record<string, React.ReactNode> = {
-    "clip-finder": (
-      <div className="space-y-1">
-        {[1, 2, 3].map((i) => (
-          <div key={i} className="h-2 rounded bg-accent/30" style={{ width: `${100 - i * 15}%` }} />
-        ))}
-      </div>
-    ),
-    subtitles: (
-      <div className="rounded bg-black/80 px-2 py-1 text-[10px] text-white">
-        Auto-generated subtitles
-      </div>
-    ),
-    framing: (
-      <div className="relative h-12 rounded bg-muted">
-        <div className="absolute inset-x-4 top-1/2 h-8 -translate-y-1/2 rounded border-2 border-accent/50" />
-      </div>
-    ),
-    captions: (
-      <p className="text-[10px] text-muted-foreground line-clamp-2">
-        When we realized our entire strategy was wrong...
-      </p>
-    ),
-    brand: (
-      <div className="flex gap-1">
-        {["#FAFAFA", "#3B82F6", "#22C55E"].map((c) => (
-          <div key={c} className="h-4 w-4 rounded" style={{ backgroundColor: c }} />
-        ))}
-      </div>
-    ),
-    scheduling: (
-      <div className="grid grid-cols-3 gap-1">
-        {["M", "T", "W"].map((d) => (
-          <div key={d} className="rounded border border-border py-1 text-center text-[8px]">
-            {d}
-          </div>
-        ))}
-      </div>
-    ),
-    team: (
-      <div className="flex -space-x-2">
-        {[1, 2, 3].map((i) => (
-          <div key={i} className="h-6 w-6 rounded-full border-2 border-card bg-muted" />
-        ))}
-      </div>
-    ),
-    approval: (
-      <div className="flex gap-1">
-        <div className="rounded bg-green-500/20 px-2 py-0.5 text-[8px] text-green-400">Approve</div>
-        <div className="rounded bg-amber-500/20 px-2 py-0.5 text-[8px] text-amber-400">Changes</div>
-      </div>
-    ),
-    analytics: (
-      <div className="flex h-8 items-end gap-0.5">
-        {[40, 60, 45, 80, 55].map((h, i) => (
-          <div key={i} className="flex-1 rounded-t bg-accent/60" style={{ height: `${h}%` }} />
-        ))}
-      </div>
-    ),
-  };
+/* -------------------------------------------------------------------------- */
+/*  Surface                                                                    */
+/* -------------------------------------------------------------------------- */
 
-  return <div className="mt-4 h-12">{demos[demo] ?? null}</div>;
-}
+const tile =
+  "relative flex h-full flex-col overflow-hidden rounded-2xl bg-[#131315] p-6 sm:p-7 " +
+  "before:pointer-events-none before:absolute before:inset-0 " +
+  "before:bg-[radial-gradient(60%_50%_at_100%_0%,rgba(255,255,255,0.06),transparent_70%)]";
+
+/* -------------------------------------------------------------------------- */
+/*  The job, in three parts                                                    */
+/* -------------------------------------------------------------------------- */
+
+const groups = [
+  {
+    stage: "Making it",
+    items: [
+      ["Clip finder", "The moments worth posting, pulled out of the full recording."],
+      ["Subtitles", "Burned in and styled, checked against the transcript."],
+      ["Speaker framing", "The crop follows whoever is talking, in every aspect ratio."],
+    ],
+  },
+  {
+    stage: "Sending it",
+    items: [
+      ["Native formats", "Vertical, square or landscape, cut for the platform it lands on."],
+      ["Scheduling", "Slots picked per account and filled a month at a time."],
+      ["Approvals", "Hold posts for a yes, or switch it off and let them run."],
+    ],
+  },
+  {
+    stage: "Knowing it worked",
+    items: [
+      ["Analytics", "Reach and engagement per account, tied to the clip that earned it."],
+      ["Brand kit", "Your fonts, colours and logo applied to everything that goes out."],
+      ["Workspaces", "A separate space per brand or client, with its own accounts."],
+    ],
+  },
+];
+
+/* -------------------------------------------------------------------------- */
+/*  The section                                                                */
+/* -------------------------------------------------------------------------- */
 
 export function FeaturesSection() {
   return (
-    <Section variant="muted">
+    <Section>
       <Container>
         <MotionReveal>
-          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+          <h2 className="mx-auto max-w-2xl text-balance text-center text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
             Everything you need in one platform.
           </h2>
+          <p className="mx-auto mt-5 max-w-xl text-center text-[15px] leading-relaxed text-muted-foreground md:mt-6">
+            The whole job, from finding the moment to knowing how it did, without a second
+            tool or a handover in between.
+          </p>
         </MotionReveal>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature, i) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-              whileHover={{ y: -4 }}
-              className="rounded-xl border border-border bg-card p-6 transition-shadow hover:shadow-soft"
-            >
-              <h3 className="font-semibold">{feature.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{feature.description}</p>
-              <FeatureDemo demo={feature.demo} />
-            </motion.div>
-          ))}
+        <div className="mt-12 grid gap-4 md:mt-16 sm:grid-cols-2 lg:grid-cols-3">
+          {groups.flatMap(({ items }) =>
+            items.map(([name, body], i) => (
+              <MotionReveal key={name} delay={i * 0.05}>
+                <div className={tile}>
+                  <h3 className="relative text-[17px] font-semibold tracking-tight">
+                    {name}
+                  </h3>
+                  <p className="relative mt-2 text-[15px] leading-relaxed text-muted-foreground">
+                    {body}
+                  </p>
+                </div>
+              </MotionReveal>
+            ))
+          )}
         </div>
       </Container>
     </Section>
