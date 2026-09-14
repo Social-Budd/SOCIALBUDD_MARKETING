@@ -88,14 +88,116 @@ const versions = [
   },
 ];
 
+type Version = (typeof versions)[number];
+
+/**
+ * The post as it appears on that platform, inside the phone. The 9:16 formats
+ * fill the screen the way Reels, TikTok and Shorts do; the others sit in a feed
+ * with the rest of it carrying on underneath.
+ */
+function PhonePost({
+  v,
+  videoRef,
+}: {
+  v: Version;
+  videoRef?: (el: HTMLVideoElement | null) => void;
+}) {
+  return (
+    <Phone>
+      {!v.full && (
+        <motion.div
+          key={`${v.name}-head`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.25 }}
+          className="flex items-center gap-2 px-2.5 pb-2 pt-8"
+        >
+          <v.Mark className="h-3 w-3" />
+          <span className="text-[9px] font-medium text-foreground/85">{v.handle}</span>
+          <span className="ml-auto text-[8px] text-muted-foreground/70">now</span>
+        </motion.div>
+      )}
+
+      <motion.div
+        animate={{ height: v.media }}
+        initial={false}
+        transition={{ type: "spring", stiffness: 200, damping: 26 }}
+        className={`w-full overflow-hidden bg-black ${
+          v.full ? "absolute inset-x-0 top-0" : "relative"
+        }`}
+      >
+        <video
+          ref={videoRef}
+          src="/media/studio-source.mp4"
+          poster="/media/studio-source.jpg"
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden
+          className="h-full w-full object-cover"
+          style={{ objectPosition: "49% 50%" }}
+        />
+      </motion.div>
+
+      <motion.div
+        key={`${v.name}-foot`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        className={
+          v.full
+            ? "absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/85 to-transparent px-2.5 pb-4 pt-10"
+            : "px-2.5 pt-2.5"
+        }
+      >
+        {v.full && (
+          <>
+            <div className="mb-2.5 flex items-center gap-2">
+              <v.Mark className="h-3.5 w-3.5" />
+              <span className="text-[9px] font-medium text-white/90">{v.handle}</span>
+            </div>
+            <p className="line-clamp-2 text-[8px] leading-snug text-white/90">{v.caption}</p>
+            {v.tags && <p className="mt-1 text-[8px] text-white/55">{v.tags}</p>}
+          </>
+        )}
+      </motion.div>
+
+      {!v.full && (
+        <div className="flex flex-1 flex-col px-2.5 pb-2">
+          <div className="flex items-center gap-3 pt-3 text-white/45" aria-hidden>
+            <Heart className="h-3.5 w-3.5" />
+            <MessageCircle className="h-3.5 w-3.5" />
+            <Send className="h-3.5 w-3.5" />
+            <Bookmark className="ml-auto h-3.5 w-3.5" />
+          </div>
+
+          <p className="mt-3 line-clamp-2 text-[8px] leading-snug text-foreground/85">
+            {v.caption}
+          </p>
+          {v.tags && <p className="mt-1 text-[8px] text-muted-foreground">{v.tags}</p>}
+
+          <div className="mt-5 flex items-center gap-2" aria-hidden>
+            <span className="h-4 w-4 rounded-full bg-white/[0.1]" />
+            <span className="h-1 w-14 rounded-full bg-white/[0.1]" />
+          </div>
+          <div className="mt-2 flex-1 rounded-t-lg bg-white/[0.05]" aria-hidden />
+        </div>
+      )}
+    </Phone>
+  );
+}
+
 /* -------------------------------------------------------------------------- */
 /*  The section                                                                */
 /* -------------------------------------------------------------------------- */
 
+
 export function PublishSection() {
   const [active, setActive] = useState(0);
   const panels = useRef<(HTMLDivElement | null)[]>([]);
-  const video = useRef<HTMLVideoElement>(null);
+  const pinned = useRef<HTMLVideoElement | null>(null);
+  const cardVideos = useRef<(HTMLVideoElement | null)[]>([]);
 
   // Whichever card is nearest the middle of the screen owns the rail.
   useEffect(() => {
@@ -135,6 +237,17 @@ export function PublishSection() {
   }, []);
 
   const current = versions[active];
+
+  // Only the post in view plays: the pinned phone on a wide screen, or that
+  // card's own phone on a narrow one.
+  useEffect(() => {
+    void pinned.current?.play().catch(() => {});
+    cardVideos.current.forEach((el, i) => {
+      if (!el) return;
+      if (i === active) void el.play().catch(() => {});
+      else el.pause();
+    });
+  }, [active]);
 
   return (
     <Section>
@@ -199,107 +312,9 @@ export function PublishSection() {
             </ul>
           </nav>
 
-          {/* The clip stays put inside the phone, and the post re-shapes itself
-              for whichever card you reach. The phone never changes size. */}
-          <div className="sticky top-24 z-10 flex justify-center self-start lg:top-28">
-            <div className="scale-[0.7] sm:scale-[0.85] lg:scale-100">
-              <Phone>
-                {/* who is posting, above the media in a feed */}
-                {!current.full && (
-                  <motion.div
-                    key={`${current.name}-head`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.25 }}
-                    className="flex items-center gap-2 px-2.5 pb-2 pt-8"
-                  >
-                    <current.Mark className="h-3 w-3" />
-                    <span className="text-[9px] font-medium text-foreground/85">
-                      {current.handle}
-                    </span>
-                    <span className="ml-auto text-[8px] text-muted-foreground/70">now</span>
-                  </motion.div>
-                )}
-
-                {/* the post itself */}
-                <motion.div
-                  animate={{ height: current.media }}
-                  initial={false}
-                  transition={{ type: "spring", stiffness: 200, damping: 26 }}
-                  className={`w-full overflow-hidden bg-black ${
-                    current.full ? "absolute inset-x-0 top-0" : "relative"
-                  }`}
-                >
-                  <video
-                    ref={video}
-                    src="/media/studio-source.mp4"
-                    poster="/media/studio-source.jpg"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    aria-hidden
-                    className="h-full w-full object-cover"
-                    style={{ objectPosition: "49% 50%" }}
-                  />
-                </motion.div>
-
-                {/* what sits under it, or over it when the video fills the screen */}
-                <motion.div
-                  key={`${current.name}-foot`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                  className={
-                    current.full
-                      ? "absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/85 to-transparent px-2.5 pb-4 pt-10"
-                      : "px-3 pt-3"
-                  }
-                >
-                  {current.full && (
-                    <div className="mb-2.5 flex items-center gap-2">
-                      <current.Mark className="h-3 w-3" />
-                      <span className="text-[9px] font-medium text-white/90">
-                        {current.handle}
-                      </span>
-                    </div>
-                  )}
-                  {current.full && (
-                    <>
-                      <p className="line-clamp-2 text-[8px] leading-snug text-white/90">{current.caption}</p>
-                      {current.tags && (
-                        <p className="mt-1 text-[8px] text-white/55">{current.tags}</p>
-                      )}
-                    </>
-                  )}
-                </motion.div>
-
-                {/* the rest of the feed, so the screen never sits half empty */}
-                {!current.full && (
-                  <div className="flex flex-1 flex-col px-2.5 pb-2">
-                    <div className="flex items-center gap-3 pt-3 text-white/45" aria-hidden>
-                      <Heart className="h-3.5 w-3.5" />
-                      <MessageCircle className="h-3.5 w-3.5" />
-                      <Send className="h-3.5 w-3.5" />
-                      <Bookmark className="ml-auto h-3.5 w-3.5" />
-                    </div>
-
-                    <p className="mt-3 line-clamp-2 text-[8px] leading-snug text-foreground/85">
-                      {current.caption}
-                    </p>
-                    {current.tags && (
-                      <p className="mt-1 text-[8px] text-muted-foreground">{current.tags}</p>
-                    )}
-
-                    <div className="mt-5 flex items-center gap-2" aria-hidden>
-                      <span className="h-4 w-4 rounded-full bg-white/[0.1]" />
-                      <span className="h-1 w-14 rounded-full bg-white/[0.1]" />
-                    </div>
-                    <div className="mt-2 flex-1 rounded-t-lg bg-white/[0.05]" aria-hidden />
-                  </div>
-                )}
-              </Phone>
-            </div>
+          {/* On a wide screen one phone stays put and re-shapes itself */}
+          <div className="sticky top-28 hidden self-start lg:block">
+            <PhonePost v={current} videoRef={(el) => (pinned.current = el)} />
           </div>
 
           {/* One card of detail per platform, listed down the page */}
@@ -319,18 +334,31 @@ export function PublishSection() {
                       {name}
                     </p>
 
-                    <dl className="relative mt-6 space-y-5">
-                      {specs.map(([label, value]) => (
-                        <div key={label}>
-                          <dt className="text-[12px] font-medium text-muted-foreground/70">
-                            {label}
-                          </dt>
-                          <dd className="mt-1.5 text-[15px] leading-relaxed text-foreground/85">
-                            {value}
-                          </dd>
-                        </div>
-                      ))}
-                    </dl>
+                    {/* the pinned phone is hidden on small screens, so each card
+                        shows its own, beside the detail once there is room */}
+                    <div className="relative mt-6 flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8 lg:block">
+                      <div className="flex shrink-0 justify-start lg:hidden">
+                        <PhonePost
+                          v={versions[i]}
+                          videoRef={(el) => {
+                            cardVideos.current[i] = el;
+                          }}
+                        />
+                      </div>
+
+                      <dl className="min-w-0 flex-1 space-y-5">
+                        {specs.map(([label, value]) => (
+                          <div key={label}>
+                            <dt className="text-[12px] font-medium text-muted-foreground/70">
+                              {label}
+                            </dt>
+                            <dd className="mt-1.5 text-[15px] leading-relaxed text-foreground/85">
+                              {value}
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </div>
                   </div>
                 </MotionReveal>
               </div>
