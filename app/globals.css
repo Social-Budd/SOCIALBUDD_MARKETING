@@ -85,6 +85,14 @@
     @apply bg-background text-foreground font-sans antialiased;
   }
 
+  /* Headings carry the display face; the interface keeps the sans. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display), var(--font-plus-jakarta), system-ui, sans-serif;
+  }
+
   ::selection {
     background: color-mix(in oklab, var(--accent) 30%, transparent);
   }
@@ -172,6 +180,14 @@
 }
 
 /* Hero copy entrance: pure CSS so it plays before hydration. */
+.font-display {
+  font-family: var(--font-display), var(--font-plus-jakarta), system-ui, sans-serif;
+}
+
+.font-hand {
+  font-family: var(--font-hand), "Segoe Script", cursive;
+}
+
 @keyframes hero-in {
   from {
     opacity: 0;

@@ -187,8 +187,8 @@ export function ProblemSection() {
                 <span className="text-[13px] font-semibold text-muted-foreground">+ More</span>
               </div>
               <p className={`mt-6 ${copy}`}>
-                Every channel you run, and the ones you add next. Each post goes out in that
-                platform&apos;s native format.
+                Every account connected to Social Budd, and the ones you add next. Each
+                post goes out in that platform&apos;s native format.
               </p>
             </div>
           </MotionReveal>

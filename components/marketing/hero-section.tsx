@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { HeroEyebrow } from "./hero-eyebrow";
 import { HeroPipeline } from "./hero-pipeline";
+import { HeroDoodles } from "./hero-doodles";
 
 export function HeroSection() {
   return (
@@ -17,19 +18,22 @@ export function HeroSection() {
       <Container>
         {/* Entrances are CSS keyframes rather than JS-driven, so the copy is
             on screen from the first paint even before hydration. */}
-        <div className="relative z-10 mx-auto max-w-4xl text-center">
+        <div className="relative">
+          <HeroDoodles />
+
+          <div className="relative z-10 mx-auto max-w-4xl text-center">
           <div className="hero-in hero-in-1">
             <HeroEyebrow />
           </div>
 
-          <h1 className="hero-in hero-in-2 text-balance text-[2rem] font-bold leading-[1.08] tracking-tight sm:text-4xl md:text-6xl lg:text-7xl">
-            Turn one video into{" "}
-            <span className="gradient-text">weeks of social content.</span>
+          <h1 className="hero-in hero-in-2 font-display text-balance text-[2.1rem] font-extrabold leading-[1.05] tracking-[-0.035em] sm:text-[2.75rem] md:text-6xl lg:text-7xl">
+            Create once.{" "}
+            <span className="gradient-text">Multiply everywhere.</span>
           </h1>
 
-          <p className="hero-in hero-in-3 mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:mt-6 sm:text-lg md:text-xl">
-            Social Budd finds your best moments, turns them into engaging short clips,
-            writes captions, and publishes them across your social channels — automatically.
+          <p className="hero-in hero-in-3 mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:mt-5 sm:text-base md:text-[17px]">
+            One piece of content becomes posts for every account connected to Social
+            Budd, each one written, sized and scheduled for the platform it lands on.
           </p>
 
           {/* Side by side on every screen: half-width pills on phones, natural
@@ -53,6 +57,7 @@ export function HeroSection() {
             >
               <Link href="/#workflow">See how it works</Link>
             </Button>
+          </div>
           </div>
         </div>
 

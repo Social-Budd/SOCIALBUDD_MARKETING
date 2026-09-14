@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Bricolage_Grotesque, Caveat, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { ScrollToTop } from "@/components/layout/scroll-to-top";
@@ -16,6 +16,21 @@ const plusJakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+/** Carries the headlines, where the page needs a voice of its own. */
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+/** Used only for the hand-written notes beside the hero. */
+const caveat = Caveat({
+  subsets: ["latin"],
+  variable: "--font-hand",
+  weight: ["600"],
+  display: "swap",
+});
+
 export const metadata: Metadata = createMetadata();
 
 export default function RootLayout({
@@ -24,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={plusJakarta.variable}>
+    <html lang="en" className={`${plusJakarta.variable} ${bricolage.variable} ${caveat.variable}`}>
       <head>
         <script
           type="application/ld+json"
