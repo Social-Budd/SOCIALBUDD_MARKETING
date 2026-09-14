@@ -24,14 +24,14 @@ export function createProductPage({ title, description, path, badge, demo }: Pro
           badge={badge}
           title={title}
           description={description}
-          primaryCta={{ label: "Start for free", href: "/start" }}
+          primaryCta={{ label: "Contact us", href: "/contact" }}
           secondaryCta={{ label: "See pricing", href: "/pricing" }}
         />
         {demo}
         <Section>
           <Container className="text-center">
             <Button asChild size="lg">
-              <Link href="/start">Start for free</Link>
+              <Link href="/contact">Contact us</Link>
             </Button>
           </Container>
         </Section>

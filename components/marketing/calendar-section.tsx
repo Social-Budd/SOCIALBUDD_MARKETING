@@ -82,25 +82,28 @@ function postsOn(day: number) {
 /*  The section                                                                */
 /* -------------------------------------------------------------------------- */
 
-export function CalendarSection() {
+/** The heading is dropped where the page already has one of its own. */
+export function CalendarSection({ heading = true }: { heading?: boolean }) {
   const [selected, setSelected] = useState(TODAY);
   const chosen = postsOn(selected);
 
   return (
     <Section>
       <Container>
-        <MotionReveal>
-          <h2 className="mx-auto max-w-2xl text-balance text-center text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
-            Your month is filled in before it starts.
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-center text-[15px] leading-relaxed text-muted-foreground md:mt-6">
-            Every post has a date, a time and a state you can see at a glance. Pick any
-            day to look at what goes out.
-          </p>
-        </MotionReveal>
+        {heading && (
+          <MotionReveal>
+            <h2 className="mx-auto max-w-2xl text-balance text-center text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
+              Your month is filled in before it starts.
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl text-center text-[15px] leading-relaxed text-muted-foreground md:mt-6">
+              Every post has a date, a time and a state you can see at a glance. Pick any
+              day to look at what goes out.
+            </p>
+          </MotionReveal>
+        )}
 
         <MotionReveal>
-          <div className="mt-12 grid gap-4 md:mt-16 lg:grid-cols-[1.55fr_1fr]">
+          <div className={`grid gap-4 lg:grid-cols-[1.55fr_1fr] ${heading ? "mt-12 md:mt-16" : ""}`}>
             {/* The month */}
             <div className={tile}>
               <p className="relative text-[15px] font-semibold tracking-tight">{MONTH}</p>

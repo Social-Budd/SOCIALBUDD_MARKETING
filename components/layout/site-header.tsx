@@ -7,7 +7,6 @@ import {
   ArrowRight,
   BookOpen,
   BriefcaseBusiness,
-  Building2,
   Captions,
   CalendarClock,
   ChartNoAxesCombined,
@@ -81,13 +80,8 @@ const resourceItems: MenuItem[] = [
   { label: "Help Center", href: "/help", description: "Answers from the team", Icon: LifeBuoy },
 ];
 
+/* The agencies entry is parked while those pages are off the site. */
 const solutionItems: MenuItem[] = [
-  {
-    label: "Agencies",
-    href: "/agencies",
-    description: "Run every client's channels from one workspace",
-    Icon: Building2,
-  },
   {
     label: "Podcasters",
     href: "/solutions/podcasters",
@@ -171,53 +165,24 @@ function SectionTitle({ children }: { children: string }) {
 }
 
 /** The Solutions menu's visual column: two small proofs of the product at work. */
-function SolutionsShowcase() {
+/** The panel beside the list: one short ask, and the channels we post to. */
+function SolutionsAside() {
   return (
-    <div className="grid gap-3">
-      <Link
-        href="/solutions/podcasters"
-        className="group relative block overflow-hidden rounded-xl border border-white/[0.08]"
-      >
-        <img
-          src="/media/studio-source.jpg"
-          alt=""
-          width={1280}
-          height={720}
-          className="aspect-[16/10] w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-        <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-black/55 px-2 py-1 text-[11px] font-semibold text-white backdrop-blur">
-          <TrendingUp className="h-3 w-3 text-success" />
-          +62% reach
-        </span>
-        <span className="absolute inset-x-3 bottom-3 text-[13px] font-semibold text-white">
-          Podcasters
-        </span>
-      </Link>
+    <div className="rounded-xl bg-white/[0.03] p-4">
+      <p className="text-[13px] font-semibold text-foreground">Not sure where you fit?</p>
+      <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground">
+        Tell us what you record and where you post. We will come back with what we would
+        run for you.
+      </p>
 
       <Link
-        href="/agencies"
-        className="group block rounded-xl border border-white/[0.08] bg-white/[0.03] p-3 transition-colors hover:bg-white/[0.05]"
+        href="/contact"
+        className="mt-4 inline-flex items-center gap-1.5 text-[12px] font-semibold text-foreground transition-colors hover:text-foreground/80"
       >
-        <span className="text-[13px] font-semibold text-foreground">Agencies</span>
-        <span className="mt-2 flex items-center">
-          {[InstagramIcon, TikTokIcon, YouTubeIcon, LinkedInIcon, XIcon].map((Mark, i) => (
-            <span
-              key={i}
-              style={{ zIndex: 5 - i }}
-              className="relative -ml-1.5 flex h-7 w-7 items-center justify-center rounded-full border-2 border-[#161618] bg-[#1c1c20] first:ml-0"
-            >
-              <Mark className="h-3.5 w-3.5" />
-            </span>
-          ))}
-          <span className="relative -ml-1.5 flex h-7 items-center rounded-full border-2 border-[#161618] bg-[#1c1c20] px-2 text-[10px] font-semibold text-foreground/80">
-            + More
-          </span>
-        </span>
-        <span className="mt-2 block text-[12px] text-muted-foreground">
-          Every client, every channel, one workspace
-        </span>
+        Contact us
+        <ArrowRight className="h-3.5 w-3.5" />
       </Link>
+
     </div>
   );
 }
@@ -323,8 +288,8 @@ function DesktopNav() {
         onOpen={() => show("solutions")}
         onClose={() => setOpen(null)}
       />
-      <NavItem href="/pricing">Pricing</NavItem>
-      <NavItem href="/agencies">Agencies</NavItem>
+      <NavItem href="/how-it-works">How it works</NavItem>
+      <NavItem href="/about">About</NavItem>
 
       <AnimatePresence>
         {open && (
@@ -364,7 +329,7 @@ function DesktopNav() {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-[1fr_auto_260px] gap-3">
+              <div className="grid grid-cols-[1fr_auto_240px] gap-3">
                 <div>
                   <SectionTitle>Who it&apos;s for</SectionTitle>
                   <div className="grid grid-cols-2 gap-1">
@@ -374,7 +339,7 @@ function DesktopNav() {
                   </div>
                 </div>
                 <div className="w-px bg-white/[0.08]" />
-                <SolutionsShowcase />
+                <SolutionsAside />
               </div>
             )}
           </motion.div>
@@ -424,12 +389,9 @@ export function SiteHeader() {
           <DesktopNav />
 
           <div className="hidden items-center gap-2 lg:flex">
-            <Button asChild variant="ghost" size="sm" className="rounded-full px-4">
-              <Link href="/contact">Talk to sales</Link>
-            </Button>
             <Button asChild size="sm" className="rounded-full px-4">
-              <Link href="/start">
-                Start for free
+              <Link href="/contact">
+                Contact us
                 <ArrowRight />
               </Link>
             </Button>
@@ -474,8 +436,11 @@ export function SiteHeader() {
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-1 border-t border-border pt-4">
-                  <Link href="/pricing" className="rounded-full px-3.5 py-2 text-sm hover:bg-white/[0.05]" onClick={close}>
-                    Pricing
+                  <Link href="/how-it-works" className="rounded-full px-3.5 py-2 text-sm hover:bg-white/[0.05]" onClick={close}>
+                    How it works
+                  </Link>
+                  <Link href="/about" className="rounded-full px-3.5 py-2 text-sm hover:bg-white/[0.05]" onClick={close}>
+                    About
                   </Link>
                   <Link href="/blog" className="rounded-full px-3.5 py-2 text-sm hover:bg-white/[0.05]" onClick={close}>
                     Blog
@@ -483,13 +448,10 @@ export function SiteHeader() {
                   <Link href="/docs" className="rounded-full px-3.5 py-2 text-sm hover:bg-white/[0.05]" onClick={close}>
                     Docs
                   </Link>
-                  <Link href="/contact" className="rounded-full px-3.5 py-2 text-sm hover:bg-white/[0.05]" onClick={close}>
-                    Talk to sales
-                  </Link>
                 </div>
                 <Button asChild className="h-11 rounded-md px-5">
-                  <Link href="/start" onClick={close}>
-                    Start for free
+                  <Link href="/contact" onClick={close}>
+                    Contact us
                     <ArrowRight />
                   </Link>
                 </Button>

@@ -36,23 +36,26 @@ const stats = [
 /*  The section                                                                */
 /* -------------------------------------------------------------------------- */
 
-export function AnalyticsSection() {
+/** The heading is dropped where the page already has one of its own. */
+export function AnalyticsSection({ heading = true }: { heading?: boolean }) {
   const peak = Math.max(...weeks);
 
   return (
     <Section>
       <Container>
-        <MotionReveal>
-          <h2 className="mx-auto max-w-2xl text-balance text-center text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
-            You see what worked, and what to make more of.
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-center text-[15px] leading-relaxed text-muted-foreground md:mt-6">
-            Reach, engagement and follower growth come back in one place, tied to the
-            clips that earned them.
-          </p>
-        </MotionReveal>
+        {heading && (
+          <MotionReveal>
+            <h2 className="mx-auto max-w-2xl text-balance text-center text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
+              You see what worked, and what to make more of.
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl text-center text-[15px] leading-relaxed text-muted-foreground md:mt-6">
+              Reach, engagement and follower growth come back in one place, tied to the
+              clips that earned them.
+            </p>
+          </MotionReveal>
+        )}
 
-        <div className="mt-12 grid gap-4 md:mt-16 lg:grid-cols-[1.3fr_1fr]">
+        <div className={`grid gap-4 lg:grid-cols-[1.3fr_1fr] ${heading ? "mt-12 md:mt-16" : ""}`}>
           {/* Reach */}
           <MotionReveal>
             <div className={tile}>

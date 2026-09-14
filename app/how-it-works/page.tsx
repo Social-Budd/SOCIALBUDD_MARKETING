@@ -2,54 +2,56 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { createMetadata } from "@/lib/metadata";
 import { PageHero } from "@/components/layout/page-hero";
+import { WorkflowSection } from "@/components/marketing/workflow-section";
+import { ClippingDemoSection } from "@/components/marketing/clipping-demo-section";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { MotionReveal } from "@/components/ui/motion-reveal";
 
 export const metadata = createMetadata({
-  title: "For Businesses",
+  title: "How it works",
   description:
-    "Webinars, interviews and demos become a steady stream of posts, without hiring anyone to run it.",
-  path: "/solutions/businesses",
+    "Connect your accounts once. We make the content, you approve it if you want to, and it publishes itself.",
+  path: "/how-it-works",
 });
 
 const card = "rounded-2xl bg-white/[0.03] p-6 sm:p-7";
 
-const forBusinesses = [
+const asks = [
   [
-    "Nobody has to own it",
-    "Social stops being the job nobody has time for and nobody wants to be asked about on Friday.",
+    "What we need from you",
+    "One approval per platform, and somewhere to find the material you already record.",
   ],
   [
-    "The recordings you already have",
-    "Webinars, all-hands, customer interviews and demos are sitting in a drive, unwatched since the day they ran.",
+    "What we handle",
+    "Reading the recording, cutting it, writing it, sizing it, timing it and sending it.",
   ],
   [
-    "One voice across accounts",
-    "Every post sounds like the company, not like whoever happened to write it that week.",
-  ],
-  [
-    "Something to show leadership",
-    "Reach, engagement and growth per account, tied to the clips that earned them.",
+    "What you keep",
+    "The final say if you want it, and everything that gets made, whether you stay or not.",
   ],
 ];
 
-export default function BusinessesPage() {
+export default function HowItWorksPage() {
   return (
     <>
       <PageHero
-        badge="For businesses"
-        title="Turn company video into reach."
-        description="The material is already recorded. We cut it, write it, schedule it and put it out on every account you run."
+        badge="How it works"
+        title="Connect it once. It runs from there."
+        description="Four steps, and only the first one needs you. This is what each part actually involves."
         primaryCta={{ label: "Contact us", href: "/contact" }}
         align="center"
       />
 
-      <Section className="pt-4 md:pt-6">
+      <WorkflowSection heading={false} />
+
+      <ClippingDemoSection />
+
+      <Section className="pt-0 md:pt-0 lg:pt-0">
         <Container>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {forBusinesses.map(([title, body], i) => (
+          <div className="grid gap-4 md:grid-cols-3">
+            {asks.map(([title, body], i) => (
               <MotionReveal key={title} delay={i * 0.06}>
                 <div className={`${card} h-full`}>
                   <h2 className="text-[17px] font-semibold tracking-tight">{title}</h2>
@@ -64,11 +66,11 @@ export default function BusinessesPage() {
           <MotionReveal delay={0.15}>
             <div className={`${card} mt-4 text-center sm:p-10`}>
               <h2 className="text-[17px] font-semibold tracking-tight">
-                Start with what is already on the drive
+                See it on your own channels
               </h2>
               <p className="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-muted-foreground">
-                Tell us what your team records and where you post. We will come back with
-                what a month of it looks like.
+                Tell us where you post and what you record. We will walk you through what
+                the first month would look like.
               </p>
               <Button asChild className="mt-8 h-11 rounded-full px-6 text-[15px]">
                 <Link href="/contact">

@@ -44,8 +44,8 @@ export function HeroSection() {
               size="lg"
               className="h-11 flex-1 rounded-full px-4 text-[14px] sm:h-12 sm:flex-none sm:px-6 sm:text-base"
             >
-              <Link href="/start">
-                Start for free
+              <Link href="/contact">
+                Contact us
                 <ArrowRight />
               </Link>
             </Button>

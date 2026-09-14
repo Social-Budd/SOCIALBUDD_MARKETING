@@ -20,7 +20,7 @@ export default function AgenciesPage() {
         badge="For agencies"
         title="One platform for every client."
         description="Manage 20 clients, 50 social accounts, and hundreds of videos from a single workspace. Client approval, brand templates, and scheduling built in."
-        primaryCta={{ label: "Start for free", href: "/start" }}
+        primaryCta={{ label: "Contact us", href: "/contact" }}
         secondaryCta={{ label: "Talk to sales", href: "/contact" }}
       />
       <AgencySection />
@@ -30,7 +30,7 @@ export default function AgenciesPage() {
           <h2 className="text-2xl font-bold">Ready to streamline your agency workflow?</h2>
           <div className="mt-6 flex flex-wrap justify-center gap-4">
             <Button asChild size="lg">
-              <Link href="/start">Start for free</Link>
+              <Link href="/contact">Contact us</Link>
             </Button>
             <Button asChild variant="secondary" size="lg">
               <Link href="/contact">Talk to sales</Link>

@@ -75,7 +75,8 @@ const platforms = [InstagramIcon, TikTokIcon, YouTubeIcon, LinkedInIcon, Faceboo
 /*  The section                                                                */
 /* -------------------------------------------------------------------------- */
 
-export function ClippingDemoSection() {
+/** The heading is dropped where the page already has one of its own. */
+export function ClippingDemoSection({ heading = true }: { heading?: boolean }) {
   const calm = usePrefersReducedMotion();
   const [running, setRunning] = useState(false);
   const [phase, setPhase] = useState<"idle" | "playing" | "ended">("idle");
@@ -159,17 +160,19 @@ export function ClippingDemoSection() {
   return (
     <Section>
       <Container>
-        <MotionReveal>
-          <h2 className="mx-auto max-w-2xl text-balance text-center text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
-            One recording. Every clip inside it.
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-center text-[15px] leading-relaxed text-muted-foreground md:mt-6">
-            AI reads the whole transcript, marks the lines that land, and cuts each one
-            into a post sized for the platform it goes to.
-          </p>
-        </MotionReveal>
+        {heading && (
+          <MotionReveal>
+            <h2 className="mx-auto max-w-2xl text-balance text-center text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
+              One recording. Every clip inside it.
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl text-center text-[15px] leading-relaxed text-muted-foreground md:mt-6">
+              AI reads the whole transcript, marks the lines that land, and cuts each one
+              into a post sized for the platform it goes to.
+            </p>
+          </MotionReveal>
+        )}
 
-        <div ref={frame} className="mt-12 grid gap-4 md:mt-16 lg:grid-cols-2">
+        <div ref={frame} className={`grid gap-4 lg:grid-cols-2 ${heading ? "mt-12 md:mt-16" : ""}`}>
           {/* What is being said */}
           <MotionReveal>
             <div className={tile}>

@@ -6,7 +6,9 @@ export const siteConfig = {
   url: "https://socialbudd.com",
   ogImage: "/og-image.png",
   links: {
-    start: "/start",
+    // Sign-up is not open yet, so every call to action goes to contact.
+    // Point this back at "/start" when the flow is live.
+    start: "/contact",
     contact: "/contact",
     pricing: "/pricing",
     agencies: "/agencies",
@@ -53,7 +55,7 @@ export const pricingPlans = [
       "Limited social accounts",
     ],
     cta: "Try for free",
-    href: "/start",
+    href: "/contact",
     highlighted: false,
   },
   {
@@ -69,7 +71,7 @@ export const pricingPlans = [
       "Scheduling",
     ],
     cta: "Start creating",
-    href: "/start",
+    href: "/contact",
     highlighted: false,
   },
   {
@@ -84,7 +86,7 @@ export const pricingPlans = [
       "More automation",
     ],
     cta: "Start growing",
-    href: "/start",
+    href: "/contact",
     highlighted: false,
   },
   {
@@ -101,12 +103,14 @@ export const pricingPlans = [
       "Scheduling",
       "Analytics",
     ],
-    cta: "Start for free",
-    href: "/start",
+    cta: "Contact us",
+    href: "/contact",
     highlighted: true,
   },
 ] as const;
 
+/* The two agency questions are parked while the agency sections are off the
+   home page. Uncomment them to bring the answers back. */
 export const faqItems = [
   {
     question: "What is Social Budd?",
@@ -133,16 +137,16 @@ export const faqItems = [
     answer:
       "Social Budd looks for moments with high engagement potential — strong opinions, insights, emotional beats, surprising statements, and useful information — based on transcript and video analysis.",
   },
-  {
-    question: "Can agencies manage multiple clients?",
-    answer:
-      "Yes. Agency plans include multiple client workspaces with separate brand settings, social accounts, and content libraries so teams can manage everything in one place.",
-  },
-  {
-    question: "Can clients approve content?",
-    answer:
-      "Yes. Agencies can send approval links to clients. Clients review posts and approve or request changes before content is scheduled.",
-  },
+  // {
+  //   question: "Can agencies manage multiple clients?",
+  //   answer:
+  //     "Yes. Agency plans include multiple client workspaces with separate brand settings, social accounts, and content libraries so teams can manage everything in one place.",
+  // },
+  // {
+  //   question: "Can clients approve content?",
+  //   answer:
+  //     "Yes. Agencies can send approval links to clients. Clients review posts and approve or request changes before content is scheduled.",
+  // },
   {
     question: "Can I schedule posts?",
     answer:

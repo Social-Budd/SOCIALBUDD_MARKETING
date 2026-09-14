@@ -338,7 +338,8 @@ const phases = [
 /*  The section                                                                */
 /* -------------------------------------------------------------------------- */
 
-export function WorkflowSection() {
+/** The heading is dropped where the page already has one of its own. */
+export function WorkflowSection({ heading = true }: { heading?: boolean }) {
   const [active, setActive] = useState(0);
   const panels = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -384,16 +385,18 @@ export function WorkflowSection() {
   return (
     <Section id="workflow">
       <Container>
-        <MotionReveal>
-          <h2 className="mx-auto max-w-2xl text-balance text-center text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
-            Connect it once. It runs from there.
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-center md:mt-6 text-[15px] leading-relaxed text-muted-foreground">
-            Nothing to learn, nothing to hand over every week. This is the whole of it.
-          </p>
-        </MotionReveal>
+        {heading && (
+          <MotionReveal>
+            <h2 className="mx-auto max-w-2xl text-balance text-center text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
+              Connect it once. It runs from there.
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl text-center md:mt-6 text-[15px] leading-relaxed text-muted-foreground">
+              Nothing to learn, nothing to hand over every week. This is the whole of it.
+            </p>
+          </MotionReveal>
+        )}
 
-        <div className="mt-12 grid gap-10 md:mt-16 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
+        <div className={`grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 ${heading ? "mt-12 md:mt-16" : ""}`}>
           {/* The phase list follows the scroll, and can be clicked to jump. */}
           <nav className="hidden lg:sticky lg:top-32 lg:block lg:h-fit" aria-label="Workflow phases">
             <ul className="space-y-3">

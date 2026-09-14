@@ -20,7 +20,7 @@ export default function PricingPage() {
         badge="Pricing"
         title="Plans that scale with your content."
         description="Start free and upgrade as you grow. No hidden fees."
-        primaryCta={{ label: "Start for free", href: "/start" }}
+        primaryCta={{ label: "Contact us", href: "/contact" }}
         secondaryCta={{ label: "Talk to sales", href: "/contact" }}
         align="center"
       />
@@ -34,7 +34,7 @@ export default function PricingPage() {
             </Link>
           </p>
           <Button asChild className="mt-6">
-            <Link href="/start">Start for free</Link>
+            <Link href="/contact">Contact us</Link>
           </Button>
         </Container>
       </Section>

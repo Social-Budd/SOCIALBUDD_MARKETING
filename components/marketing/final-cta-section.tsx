@@ -3,33 +3,40 @@ import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
+import { MotionReveal } from "@/components/ui/motion-reveal";
 
 export function FinalCtaSection() {
   return (
     <Section className="relative overflow-hidden">
+      {/* The same quiet ground the hero uses, so the page closes where it opened. */}
       <div className="pointer-events-none absolute inset-0 surface-grid opacity-20" />
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/5 blur-3xl" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-[-40%] h-[560px] bg-[radial-gradient(50%_50%_at_50%_50%,rgba(255,255,255,0.07),transparent_70%)]" />
 
       <Container>
-        <div className="relative z-10 mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            Turn your next video into your next month of content.
-          </h2>
-          <p className="mt-6 text-lg text-muted-foreground">
-            Upload once. Let Social Budd handle the rest.
-          </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button asChild size="lg">
-              <Link href="/start">
-                Start for free
-                <ArrowRight />
-              </Link>
-            </Button>
-            <Button asChild variant="secondary" size="lg">
-              <Link href="/contact">Talk to sales</Link>
-            </Button>
+        <MotionReveal>
+          <div className="relative z-10 mx-auto max-w-2xl text-center">
+            <h2 className="text-balance text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
+              Your channels can be full by next week.
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-muted-foreground md:mt-6">
+              Connect your accounts, point us at what you already have, and the first
+              posts go out in days.
+            </p>
+
+            <div className="mt-9 flex justify-center sm:mt-10">
+              <Button
+                asChild
+                size="lg"
+                className="h-11 rounded-full px-6 text-[15px] sm:h-12 sm:px-7 sm:text-base"
+              >
+                <Link href="/contact">
+                  Contact us
+                  <ArrowRight />
+                </Link>
+              </Button>
+            </div>
           </div>
-        </div>
+        </MotionReveal>
       </Container>
     </Section>
   );
